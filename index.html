@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch TikTok Video</title>
+    <style>
+        #countdown {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Watch TikTok Video</h1>
+
+        <!-- TikTok Video Embed -->
+        <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@proddoncamillo/video/6906220854762278145" data-video-id="6906220854762278145" style="max-width: 605px;min-width: 325px;" > <section> <a target="_blank" title="@proddoncamillo" href="https://www.tiktok.com/@proddoncamillo?refer=embed">@proddoncamillo</a> <a title="tylayaweh" target="_blank" href="https://www.tiktok.com/tag/tylayaweh?refer=embed">#tylayaweh</a> <a title="freetouse" target="_blank" href="https://www.tiktok.com/tag/freetouse?refer=embed">#freetouse</a> <a title="freetouseaudio" target="_blank" href="https://www.tiktok.com/tag/freetouseaudio?refer=embed">#freetouseaudio</a> <a title="freetousesound" target="_blank" href="https://www.tiktok.com/tag/freetousesound?refer=embed">#freetousesound</a> <a title="typebeat" target="_blank" href="https://www.tiktok.com/tag/typebeat?refer=embed">#typebeat</a> <a title="typebeats2020" target="_blank" href="https://www.tiktok.com/tag/typebeats2020?refer=embed">#typebeats2020</a> <a title="swaelee" target="_blank" href="https://www.tiktok.com/tag/swaelee?refer=embed">#swaelee</a> <a title="freeforuse" target="_blank" href="https://www.tiktok.com/tag/freeforuse?refer=embed">#freeforuse</a> <a title="freetousemusic" target="_blank" href="https://www.tiktok.com/tag/freetousemusic?refer=embed">#freetousemusic</a> <a target="_blank" title="♬ original sound - Don Camillo" href="https://www.tiktok.com/music/original-sound-6906220821367376642?refer=embed">♬ original sound - Don Camillo</a> </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>
+
+        <!-- Countdown Timer Display -->
+        <div id="countdown">03:00</div> <!-- 3-minute countdown -->
+
+    </div>
+
+    <!-- JavaScript for Countdown Timer -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var timeLeft = 180; // 3 minutes (180 seconds)
+        var countdownElement = document.getElementById("countdown");
+
+        function startCountdown() {
+            var timer = setInterval(function() {
+                var minutes = Math.floor(timeLeft / 60);
+                var seconds = timeLeft % 60;
+
+                if (seconds < 10) {
+                    seconds = "0" + seconds;
+                }
+
+                countdownElement.innerHTML = minutes + ":" + seconds;
+
+                timeLeft--;
+
+                if (timeLeft < 0) {
+                    clearInterval(timer);
+                    countdownElement.innerHTML = "Time's up!";
+                }
+            }, 1000); // Update every second
+        }
+
+        // Start the countdown when the page loads
+        startCountdown();
+    });
+    </script>
+</body>
+</html>
+Initial commit
