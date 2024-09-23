@@ -25,7 +25,7 @@
         <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@proddoncamillo/video/6906220854762278145" data-video-id="6906220854762278145" style="max-width: 605px;min-width: 325px;" > <section> <a target="_blank" title="@proddoncamillo" href="https://www.tiktok.com/@proddoncamillo?refer=embed">@proddoncamillo</a> <a title="tylayaweh" target="_blank" href="https://www.tiktok.com/tag/tylayaweh?refer=embed">#tylayaweh</a> <a title="freetouse" target="_blank" href="https://www.tiktok.com/tag/freetouse?refer=embed">#freetouse</a> <a title="freetouseaudio" target="_blank" href="https://www.tiktok.com/tag/freetouseaudio?refer=embed">#freetouseaudio</a> <a title="freetousesound" target="_blank" href="https://www.tiktok.com/tag/freetousesound?refer=embed">#freetousesound</a> <a title="typebeat" target="_blank" href="https://www.tiktok.com/tag/typebeat?refer=embed">#typebeat</a> <a title="typebeats2020" target="_blank" href="https://www.tiktok.com/tag/typebeats2020?refer=embed">#typebeats2020</a> <a title="swaelee" target="_blank" href="https://www.tiktok.com/tag/swaelee?refer=embed">#swaelee</a> <a title="freeforuse" target="_blank" href="https://www.tiktok.com/tag/freeforuse?refer=embed">#freeforuse</a> <a title="freetousemusic" target="_blank" href="https://www.tiktok.com/tag/freetousemusic?refer=embed">#freetousemusic</a> <a target="_blank" title="♬ original sound - Don Camillo" href="https://www.tiktok.com/music/original-sound-6906220821367376642?refer=embed">♬ original sound - Don Camillo</a> </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>
     </div>
 
-    <!-- JavaScript for Countdown Timer and Scroll Detection -->
+    <!-- JavaScript for Countdown Timer, Scroll, and Tab Detection -->
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Manually set the video length in seconds here (e.g., 134 seconds, 240 seconds, etc.)
@@ -41,40 +41,42 @@
         var timer;
         var timerRunning = false;
 
+        // Function to start the countdown
         function startCountdown() {
-            timer = setInterval(function() {
-                var minutes = Math.floor(timeLeft / 60);
-                var seconds = timeLeft % 60;
+            if (!timerRunning) {
+                timer = setInterval(function() {
+                    var minutes = Math.floor(timeLeft / 60);
+                    var seconds = timeLeft % 60;
 
-                if (seconds < 10) {
-                    seconds = "0" + seconds;
-                }
+                    if (seconds < 10) {
+                        seconds = "0" + seconds;
+                    }
 
-                countdownElement.innerHTML = minutes + ":" + seconds;
+                    countdownElement.innerHTML = minutes + ":" + seconds;
 
-                timeLeft--;
+                    timeLeft--;
 
-                if (timeLeft < 0) {
-                    clearInterval(timer);
-                    countdownElement.innerHTML = "Time's up!";
-                }
-            }, 1000); // Update every second
+                    if (timeLeft < 0) {
+                        clearInterval(timer);
+                        countdownElement.innerHTML = "Time's up!";
+                    }
+                }, 1000); // Update every second
+                timerRunning = true;
+            }
         }
 
+        // Function to stop the countdown
         function stopCountdown() {
             clearInterval(timer);
+            timerRunning = false;
         }
 
-        // Function to check if the countdown element is visible on screen
+        // IntersectionObserver: Detect if the countdown element is visible on screen
         function handleVisibilityChange(entries) {
             entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    if (!timerRunning) {
-                        timerRunning = true;
-                        startCountdown(); // Start or resume the countdown when visible
-                    }
+                if (entry.isIntersecting && !document.hidden) {
+                    startCountdown(); // Resume the countdown when visible and not hidden
                 } else {
-                    timerRunning = false;
                     stopCountdown(); // Stop the countdown when not visible
                 }
             });
@@ -84,7 +86,16 @@
         var observer = new IntersectionObserver(handleVisibilityChange, { threshold: 0.5 }); // Trigger when 50% of the element is in view
         observer.observe(countdownElement);
 
-        // Initially start the countdown when the page loads if the timer is in view
+        // Page Visibility API: Detect if the user switches tabs or minimizes the window
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                stopCountdown(); // Stop timer if the page is hidden (user switches tabs or minimizes)
+            } else {
+                startCountdown(); // Resume timer when the user comes back to the tab
+            }
+        });
+
+        // Start the countdown initially
         startCountdown();
     });
     </script>
